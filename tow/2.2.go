@@ -211,6 +211,7 @@ func test10(){
     万年历
     思路：year:=2018,month:=8
     求出2018年7月31日，距离1900年1月1日的总天数，除以7取余数，就是空格的数量
+	万年历是连着的，一行有七个，所以7的余数就是当月一号所在的列数
     星期一星期二星期三星期四星期五星期六星期日
      */
 
@@ -233,48 +234,43 @@ func test10(){
 	}
 	//2.2求2018年1月到7月的总天数
     day := 0 //每个月的天数
-	for i := 1;i < month;i++{
+	for i := 1;i <= month;i++{
 		switch i {
-		case 1,3,5,7,8,10,12:
+		case 1,3,5,7,8,10,12:{
 			day = 31
-		case 4,6,9,11:
+			sum += 31
+		}
+		case 4,6,9,11:{
 			day = 30
+			sum += 30
+		}
 		case 2:
 			if i%4 == 0&& i%100 != 0 || i%400 == 0{
 				day = 29
+				sum += 29
 			}else{
 				day = 28
+				sum += 28
 			}
 		}
-		sum += day
+		if i == month{
+			sum -= day
+		}
 	}
+	fmt.Println(sum);
 	//3.计算空格的数量
-    kong := sum % 7
-	//4.求month月的天数
-    day2 :=0//month月的天数
-    switch month {
-    case 1,3,5,7,8,10,12:
-        day2=31
-    case 4,6,9,11:
-        day2=30
-    case 2:
-        if year %4==0&&year % 100!=0||year % 400 ==0{
-            day2 = 29
-        }else {
-            day2=28
-        }
-    }
+    space := sum % 7
     //打印
     fmt.Println("一\t二\t三\t四\t五\t六\t日")
     //打印空格
-    for i:=0;i<kong;i++{
+    for i:=0;i<space;i++{
         fmt.Print("\t")
     }
     //打印数字
-    for i:=1;i<=day2;i++{
+    for i:=1;i<=day;i++{
         fmt.Print(i,"\t")
         //换行
-        if (i+kong) % 7 ==0{
+        if (i+space) % 7 ==0{
             fmt.Println()
         }
     }
